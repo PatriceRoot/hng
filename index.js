@@ -11,7 +11,11 @@ const port = process.env.PORT || 3000; // Set the port from the environment vari
 app.use(requestIp.mw()); // Middleware to get the client's IP address
 
 app.get('/api/hello', async (req, res) => {
-  const visitorName = req.query.visitor_name; // Get the visitor's name from the query parameters
+  let visitorName = req.query.visitor_name; // Get the visitor's name from the query parameters
+  if (visitorName) {
+    visitorName = visitorName.replace(/["']/g, ""); // Remove any quotes from the visitor's name
+  }
+  
   const clientIp = req.clientIp; // Get the client's IP address
 
   try {
